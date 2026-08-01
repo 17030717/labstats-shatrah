@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+{% block title %}إدخال الإحصائية{% endblock %}
+{% block content %}
+<div class="page-head"><h1>إدخال الإحصائية اليومية</h1><a class="back" href="{{ url_for('home') }}">رجوع</a></div>
+<form method="post" class="form-card">
+  <label>التاريخ</label><input type="date" name="entry_date" value="{{ today }}" required>
+  {% if session['user']['role']=='admin' %}
+  <label>القسم</label>
+  <select name="department" required><option value="">اختر</option>{% for d in departments %}<option>{{ d }}</option>{% endfor %}</select>
+  <label>الشفت</label>
+  <select name="shift" required><option value="">اختر</option>{% for s in shifts %}<option>{{ s }}</option>{% endfor %}</select>
+  {% else %}
+  <label>القسم</label><input value="{{ session['user']['department'] }}" disabled>
+  <label>الشفت</label><input value="{{ session['user']['shift'] }}" disabled>
+  {% endif %}
+  <label>اسم المرسل</label><input name="sender_name" required>
+  <label>عدد المراجعين</label><input type="number" min="0" name="reviewers" value="0" required>
+  <label>عدد الفحوصات</label><input type="number" min="0" name="tests" value="0" required>
+  <label>العينات المرفوضة</label><input type="number" min="0" name="rejected" value="0" required>
+  <label>ملاحظات</label><textarea name="notes" rows="3"></textarea>
+  <button class="primary">حفظ وإرسال</button>
+</form>
+{% endblock %}

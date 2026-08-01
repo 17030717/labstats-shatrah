@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+{% block title %}التقرير{% endblock %}
+{% block content %}
+<div class="page-head"><h1>
+{% if mode=='daily' %}التقرير اليومي{% elif mode=='monthly' %}التقرير الشهري{% else %}التقرير السنوي{% endif %}
+</h1><a class="back" href="{{ url_for('home') }}">رجوع</a></div>
+<form class="filter" method="get">
+  {% if mode=='daily' %}<input type="date" name="value" value="{{ value }}">
+  {% elif mode=='monthly' %}<input type="month" name="value" value="{{ value }}">
+  {% else %}<input type="number" name="value" value="{{ value }}" min="2020" max="2100">{% endif %}
+  <button class="primary small">عرض</button>
+  <a class="export" href="{{ url_for('export',mode=mode,value=value) }}">تصدير Excel/CSV</a>
+</form>
+<div class="table-wrap">
+<table>
+<thead><tr><th>القسم</th><th>المراجعين</th><th>الفحوصات</th><th>المرفوضة</th><th>فحوصات/مراجع</th></tr></thead>
+<tbody>
+{% for r in rows %}
+<tr><td>{{ r.department }}</td><td>{{ r.reviewers }}</td><td>{{ r.tests }}</td><td>{{ r.rejected }}</td><td>{{ (r.tests/r.reviewers)|round(2) if r.reviewers else 0 }}</td></tr>
+{% else %}<tr><td colspan="5">لا توجد بيانات</td></tr>{% endfor %}
+</tbody>
+<tfoot><tr><th>المجموع</th><th>{{ totals.reviewers }}</th><th>{{ totals.tests }}</th><th>{{ totals.rejected }}</th><th>{{ (totals.tests/totals.reviewers)|round(2) if totals.reviewers else 0 }}</th></tr></tfoot>
+</table></div>
+{% endblock %}

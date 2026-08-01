@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+{% block title %}لوحة المدير{% endblock %}
+{% block content %}
+<div class="page-head"><h1>لوحة المدير</h1><a class="back" href="{{ url_for('home') }}">رجوع</a></div>
+<form class="filter"><input type="date" name="day" value="{{ day }}"><button class="primary small">تحديث</button></form>
+<div class="table-wrap">
+<table>
+<thead><tr><th>القسم</th><th>الشفت</th><th>الحالة</th><th>المراجعون</th><th>الفحوصات</th></tr></thead>
+<tbody>{% for s in status %}
+<tr><td>{{ s.department }}</td><td>{{ s.shift }}</td>
+<td><span class="status {{ 'sent' if s.sent else 'not' }}">{{ 'تم الإرسال' if s.sent else 'لم يرسل' }}</span></td>
+<td>{{ s.reviewers }}</td><td>{{ s.tests }}</td></tr>
+{% endfor %}</tbody>
+</table></div>
+{% endblock %}

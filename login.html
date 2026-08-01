@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+{% block title %}تسجيل الدخول{% endblock %}
+{% block content %}
+<div class="login-card">
+  <h1>تسجيل الدخول</h1>
+  <form method="post">
+    <label>رمز الدخول</label>
+    <input name="code" autocomplete="off" required autofocus>
+    <button class="primary">دخول</button>
+  </form>
+  <p class="hint">رمز المدير الافتراضي: A99999</p>
+</div>
+{% endblock %}
